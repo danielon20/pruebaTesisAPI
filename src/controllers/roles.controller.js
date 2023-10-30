@@ -3,7 +3,7 @@ import { getConnection,querys,sql } from "../database";
 export const getRoles = async (req,res) => {
     try {
         const pool = await getConnection();
-        const result = await pool.request().query('SELECT * FROM Rol')
+        const result = await pool.request().query(querys.getAllRoles)
         res.json(result.recordset);
     }catch (error) {
         res.status(500);
@@ -42,7 +42,7 @@ export const getRoleById = async (req, res) => {
       const result = await pool
         .request()
         .input("id_rol", req.params.id)
-        .query('SELECT * FROM Rol  Where id_rol = @id_rol');
+        .query(querys.getRoleById);
       return res.json(result.recordset[0]);
     } catch (error) {
       res.status(500);
@@ -57,7 +57,7 @@ export const getRoleById = async (req, res) => {
       const result = await pool
         .request()
         .input("id_rol", req.params.id)
-        .query("DELETE FROM Rol  Where id_rol = @id_rol");
+        .query(querys.deleteRole);
   
       if (result.rowsAffected[0] === 0) return res.sendStatus(404);
   
